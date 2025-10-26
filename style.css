@@ -1,0 +1,242 @@
+/* ----------------------------------------------------- */
+/* 1. Base Setup, Typography, and Advanced Variables */
+/* ----------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Professional Color Palette */
+    --color-primary: #2C3E50;   /* Deep Navy Blue (Card BG) */
+    --color-accent: #00BCD4;    /* Electric Cyan (Value Highlight) */
+    --color-bg-light: #F8FCFE; 
+    
+    /* Status Colors (HEX and corresponding RGB) */
+    --color-normal: #4CAF50;    --color-normal-rgb: 76, 175, 80;    /* Green */
+    --color-obese: #F44336;     --color-obese-rgb: 244, 67, 54;     /* Red */
+    --color-under: #FFC107;     --color-under-rgb: 255, 193, 7;     /* Amber */
+    --color-over: #FF9800;      --color-over-rgb: 255, 152, 0;      /* Orange */
+    --color-default: #6c757d;   --color-default-rgb: 108, 117, 125; /* Gray */
+    
+    /* Dynamic CSS Variables (Controlled by JS) */
+    --current-color: var(--color-default);   
+    --current-color-rgb: var(--color-default-rgb);
+    --halo-size: 0px; 
+    --progress-deg: 0deg; 
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #E8FDFE 0%, var(--color-bg-light) 100%); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* ----------------------------------------------------- */
+/* 2. Main Card Container (Simplified to match your HTML) */
+/* ----------------------------------------------------- */
+.container {
+    width: 100%;
+    max-width: 450px; 
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); 
+    text-align: center;
+}
+
+h1 { /* Changed from h2 to h1 to match your HTML */
+    color: var(--color-primary); 
+    margin-bottom: 35px;
+    font-weight: 700;
+    font-size: 2em;
+}
+
+/* ----------------------------------------------------- */
+/* 3. Input Fields */
+/* ----------------------------------------------------- */
+.input-container { /* Updated class name to match your HTML */
+    text-align: left;
+    margin-bottom: 25px;
+    position: relative; 
+}
+
+.input-container label { /* Updated selector to match your HTML */
+    display: block;
+    margin-bottom: 8px;
+    color: var(--color-primary);
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+.input-container input[type="number"] {
+    width: 100%;
+    padding: 16px 15px; 
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    font-size: 1.1em;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -moz-appearance: textfield; 
+}
+
+.input-container input[type="number"]:focus {
+    border-color: var(--color-accent); 
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
+}
+
+/* ----------------------------------------------------- */
+/* 4. Calculate Button (CTA) */
+/* ----------------------------------------------------- */
+.container button { /* Targeted the button directly */
+    width: 100%;
+    padding: 18px;
+    background-color: var(--color-accent); 
+    color: white;
+    font-size: 1.3em;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 15px;
+    box-shadow: 0 8px 20px rgba(0, 188, 212, 0.4);
+}
+.container button:hover {
+    background-color: #00A9C3;
+    transform: translateY(-2px);
+}
+.container button:active {
+    transform: translateY(0);
+}
+
+/* ----------------------------------------------------- */
+/* 5. ADVANCED Result Card and Data Halo */
+/* ----------------------------------------------------- */
+#result { /* Targeting the main result div */
+    margin-top: 45px;
+}
+
+.result-card {
+    background: var(--color-primary); 
+    color: white;
+    padding: 25px;
+    border-radius: 20px;
+    transition: box-shadow 0.5s ease-out;
+    /* HALO EFFECT: The magic happens here, using --current-color-rgb */
+    box-shadow: 0 0 var(--halo-size) rgba(var(--current-color-rgb), 0.8),
+                0 0 10px rgba(0, 0, 0, 0.2); 
+}
+
+/* ----------------------------------------------------- */
+/* 6. BMI Halo Chart (Doughnut Progress Bar) */
+/* ----------------------------------------------------- */
+.bmi-halo-chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: clamp(180px, 60vw, 220px); 
+    height: clamp(180px, 60vw, 220px);
+    margin: 30px auto 40px;
+}
+
+.chart-progress {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    /* PROGRESS BAR COLOR: Uses the dynamic --current-color */
+    background: conic-gradient(
+        var(--current-color) 0deg,
+        var(--current-color) var(--progress-deg), 
+        #3d566e var(--progress-deg), 
+        #3d566e 360deg
+    );
+    transition: background 1s ease-out, --progress-deg 1s ease-out;
+}
+
+.chart-inner-circle {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    background: var(--color-primary);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bmi-result-label {
+    font-size: 1.1em;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+#bmi-value {
+    font-size: clamp(3em, 8vw, 4em); 
+    font-weight: 800;
+    color: var(--color-accent); 
+    line-height: 1.1;
+}
+
+#bmi-status {
+    font-size: 1.2em;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    display: inline-block;
+    color: white; 
+    transition: background-color 0.5s;
+    background-color: var(--current-color); /* Status background color */
+}
+
+/* ----------------------------------------------------- */
+/* 7. Dynamic Status Coloring Classes (Setter Logic) */
+/* ----------------------------------------------------- */
+/* These classes set the dynamic CSS variables on the .result-card */
+
+.result-card.status-underweight { 
+    --current-color: var(--color-under); 
+    --current-color-rgb: var(--color-under-rgb); 
+}
+.result-card.status-normal { 
+    --current-color: var(--color-normal); 
+    --current-color-rgb: var(--color-normal-rgb); 
+}
+.result-card.status-overweight { 
+    --current-color: var(--color-over); 
+    --current-color-rgb: var(--color-over-rgb); 
+}
+.result-card.status-obese { 
+    --current-color: var(--color-obese); 
+    --current-color-rgb: var(--color-obese-rgb); 
+}
+.result-card.status-default { 
+    --current-color: var(--color-default); 
+    --current-color-rgb: var(--color-default-rgb); 
+}
+
+/* Disclaimer */
+.disclaimer {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #ECEFF1;
+}
+
+.disclaimer p {
+    font-size: 0.8em;
+    color: #999;
+}
